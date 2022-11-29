@@ -1,10 +1,14 @@
 import uvicorn
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from api import answers, questionnaires, participants
 
 load_dotenv('../.env')
 
 app = FastAPI()
+app.include_router(answers.router)
+app.include_router(questionnaires.router)
+app.include_router(participants.router)
 
 
 @app.get("/")
