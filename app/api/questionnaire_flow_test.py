@@ -12,7 +12,7 @@ class TestQuestionnaireFlow:
         participant_data = {}
         response = requests.post(url=f"{base_url}{path}", data=json.dumps(participant_data))
         assert response.status_code == 201
-        participant_id = json.loads(response.text)[0]["id"]
+        participant_id = json.loads(response.text)["id"]
 
         # Get questionnaire
         path = "api/questionnaires"
