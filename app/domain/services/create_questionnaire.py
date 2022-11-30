@@ -30,17 +30,8 @@ class ServiceCreateQuestionnaire:
         self.questionnaires.add_questionnaire(questionnaire_entity)
 
         for question_data in questionnaire_data["questions"]:
-            question_id = question_data["id"]
-            order = question_data["order"]
-            text = question_data["text"]
-            question_type = question_data["type"]
-            conditional_question_id = question_data["conditional_question_id"]
-            conditional_operation = question_data["conditional_operation"]
-            conditional_value = question_data["conditional_value"]
-
-            question_entity = Question(question_id, questionnaire_entity, order, text, question_type,
-                                       conditional_question_id, conditional_operation, conditional_value)
-
+            question_data["questionnaire"] = questionnaire_entity
+            question_entity = Question(**question_data)
             self.questions.add_question(question_entity)
 
         return questionnaire_entity

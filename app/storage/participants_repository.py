@@ -19,8 +19,8 @@ class ParticipantsRepository (CreateParticipantParticipantsIRepository):
         participants = json.loads(participants.decode())
 
         participant_id = len(list(participants.keys())) + 1
-        participant = {"id": participant_id}
-        participants[participant_entity.identifier] = participant
+        participant = {"id": participant_id, "identifier": participant_entity.identifier}
+        participants[participant_entity.id] = participant
 
         r.set("participants", json.dumps(participants))
         participant_entity.id = participant_id

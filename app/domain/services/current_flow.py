@@ -1,16 +1,12 @@
 import abc
-from typing import List
+from typing import Optional
 
 from domain.entities.questionnaire import Question
 
 
 class CurrentFlowQuestionsIRepository(abc.ABC):
     @abc.abstractmethod
-    def get_current_question(self, participant: int, questionnaire: int) -> List[Question]:
-        pass
-
-    @abc.abstractmethod
-    def questions_completed(self, participant: int, questionnaire: int) -> bool:
+    def get_current_question(self, participant_id: int, questionnaire_id: int) -> Optional[Question]:
         pass
 
 
@@ -19,7 +15,7 @@ class ServiceCurrentFlow:
 
     def execute(self, participant: int, questionnaire: int):
         current_question = self.questions.get_current_question(participant, questionnaire)
-        status = "completed" if self.questions.questions_completed(participant, questionnaire) else "pending"
+        status = "completed" if not current_question else "pending"
 
         return {
             "participant": participant,
