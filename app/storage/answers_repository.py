@@ -18,8 +18,7 @@ class AnswersRepository(CreateAnswerAnswersIRepository):
         participants = json.loads(r.get("participants").decode())
         participant = participants[str(answer.participant.id)]
         answers = participant["answers"]
-
-        filtered_answers = [a for a in answers if a.question.id == answer.question.id]
+        filtered_answers = [a for a in list(answers.values()) if a["question_id"] == answer.question.id]
         if filtered_answers:
             answer_id = int(filtered_answers[0]["id"])
         else:
@@ -59,7 +58,7 @@ class AnswersRepository(CreateAnswerAnswersIRepository):
             question_data["question_id"] = question_data.pop("id")
             question_entity = Question(**question_data)
 
-            answer_entity = Answer(participant_entity, question_entity, answer_data["value"], answer_data["id"])
+            answer_entity = Answer(question_entity, answer_data["value"], participant_entity, answer_data["id"])
             answers_list.append(answer_entity)
 
         return answers_list

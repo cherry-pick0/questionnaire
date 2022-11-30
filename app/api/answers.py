@@ -1,6 +1,3 @@
-import json
-
-import redis
 from fastapi import APIRouter
 from pydantic.main import BaseModel
 
@@ -20,13 +17,23 @@ class CreateAnswerItem(BaseModel):
 
 
 @router.get('/api/answers', status_code=200)
-async def get_answers(participant_id):
-    r = redis.Redis(host='localhost', port=6379, db=0)
-    participants = json.loads(r.get("participants").decode())
-    participant = participants[str(participant_id)]
-    answers = participant["answers"]
+async def get_answers(participant_id, questionnaire_id):
+    answers_repo = AnswersRepository()
+    answers = answers_repo.get_answers(participant_id, questionnaire_id)
+    answers_list = []
 
-    return answers
+    for answer in answers:
+        answer_data = {
+            "participant": int(answer.participant.id),
+            "value": answer.value,
+            "question_id": answer.question.id,
+            "question_text": answer.question.text,
+            "question_type": answer.question.question_type,
+            "question_order": answer.question.order,
+        }
+        answers_list.append(answer_data)
+
+    return answers_list
 
 
 @router.post('/api/answers', status_code=201)

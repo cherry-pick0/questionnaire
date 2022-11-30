@@ -76,6 +76,7 @@ class QuestionsRepository(CreateQuestionnaireQuestionsIRepository,
         for question in questions:
             filtered_answers = [a for a in answers if a.question.id == question.id]
             if not filtered_answers:
+
                 # Question not answered yet
                 if not question.conditional_question_id:
                     return question

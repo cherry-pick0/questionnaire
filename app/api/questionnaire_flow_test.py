@@ -95,15 +95,17 @@ class TestQuestionnaireFlow:
         path = "api/answers"
         question_data = {
             "question_id": 2,
-            "value": 70
+            "value": 70,
+            "participant_id": participant_id,
+            "questionnaire_id": questionnaire_id,
         }
         response = requests.post(url=f"{base_url}{path}", data=json.dumps(question_data))
         assert response.status_code == 201
-        answer_id = json.loads(response.text)[0]["id"]
+        answer_id = json.loads(response.text)["id"]
         expected_data = {
             "id": answer_id,
             "question_id": 2,
-            "value": 70
+            "value": "70"
         }
         assert expected_data == response.json()
 
@@ -124,7 +126,8 @@ class TestQuestionnaireFlow:
 
         # Get all answers
         path = "api/answers"
-        response = requests.get(url=f"{base_url}{path}", params={"participant": participant_id})
+        response = requests.get(url=f"{base_url}{path}", params={"participant_id": participant_id,
+                                                                 "questionnaire_id": questionnaire_id})
         assert response.status_code == 200
 
         expected_data = [
@@ -138,7 +141,7 @@ class TestQuestionnaireFlow:
             },
             {
                 "participant": participant_id,
-                "value": 70,
+                "value": "70",
                 "question_id": 2,
                 "question_text": "How much do you weigh?",
                 "question_type": "integer",

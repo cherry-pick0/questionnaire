@@ -39,7 +39,7 @@ class Question:
 
     def show_based_on_condition(self, conditional_answer):
         if self.conditional_operation == "date_number_of_years":
-            date = datetime.strptime(conditional_answer.value, "%Y-%m-%d")
+            date = datetime.strptime(conditional_answer.value, "%d-%m-%Y")
             diff = relativedelta.relativedelta(datetime.now(), date)
             num_years = diff.years
 
