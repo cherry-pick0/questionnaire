@@ -23,7 +23,8 @@ class TestQuestionnaireFlow:
 
         # Get questionnaire with the first question
         path = "api/questionnaire-flow"
-        response = requests.get(url=f"{base_url}{path}", questionnaire=questionnaire_id, participant=participant_id)
+        response = requests.get(url=f"{base_url}{path}", params={"questionnaire": questionnaire_id,
+                                                                 "participant": participant_id})
         assert response.status_code == 200
 
         expected_data = {
@@ -108,7 +109,7 @@ class TestQuestionnaireFlow:
         expected_data = {
             "participant": participant_id,
             "questionnaire": questionnaire_id,
-            "status": "finished",
+            "status": "completed",
             "current_question": None
         }
 

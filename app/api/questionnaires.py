@@ -1,8 +1,9 @@
 from fastapi import APIRouter
 
 from domain.services.create_questionnaire import ServiceCreateQuestionnaire
-from storage.questionnaires_repository import QuestionnaireRepository, QuestionsRepository
-
+from domain.services.current_flow import ServiceCurrentFlow
+from storage.questionnaires_repository import QuestionnaireRepository
+from storage.questions_repository import QuestionsRepository
 router = APIRouter()
 
 
@@ -19,5 +20,7 @@ async def get_questionnaires():
 
 
 @router.get('/api/questionnaire-flow', status_code=200)
-async def get_questionnaire_flow():
-    return []
+async def get_questionnaire_flow(questionnaire, participant):
+    service = ServiceCurrentFlow()
+    service.questions = QuestionsRepository()
+    return service.execute(questionnaire, participant)
