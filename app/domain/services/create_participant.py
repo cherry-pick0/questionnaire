@@ -1,10 +1,12 @@
 import abc
 import uuid
 
+from domain.entities.participant import Participant
+
 
 class CreateParticipantParticipantsIRepository(abc.ABC):
     @abc.abstractmethod
-    def add_participant(self, identifier: str):
+    def add_participant(self, participant: Participant):
         pass
 
 
@@ -13,5 +15,6 @@ class ServiceCreateParticipant:
 
     def execute(self):
         identifier = str(uuid.uuid4())
-        participant = self.participants.add_participant(identifier)
+        participant = Participant(identifier)
+        participant = self.participants.add_participant(participant)
         return participant

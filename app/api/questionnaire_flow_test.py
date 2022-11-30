@@ -18,8 +18,8 @@ class TestQuestionnaireFlow:
         path = "api/questionnaires"
         response = requests.get(url=f"{base_url}{path}")
         assert response.status_code == 200
-        assert len(response.text) == 1
-        questionnaire_id = json.loads(response.text)[0]["id"]
+        assert len(response.json()) == 1
+        questionnaire_id = response.json()[0]["id"]
 
         # Get questionnaire with the first question
         path = "api/questionnaire-flow"

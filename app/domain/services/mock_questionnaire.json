@@ -1,0 +1,41 @@
+{
+  "questionnaires": [
+    {
+      "id": 1,
+      "questions": [
+        {
+          "id": 1,
+          "questionnaire_id": 1,
+          "order": 1,
+          "text": "When were you born?",
+          "type": "date",
+          "conditional_question_id": null,
+          "conditional_operation": null,
+          "conditional_value": null
+        },
+        {
+          "id": 2,
+          "questionnaire_id": 1,
+          "order": 2,
+          "text": "How much do you weigh?",
+          "type": "integer",
+          "conditional_question_id": 1,
+          "conditional_operation": "date_number_of_years",
+          "conditional_operator": ">",
+          "conditional_value": 35
+        },
+        {
+          "id": 3,
+          "questionnaire_id": 1,
+          "order": 3,
+          "text": "How often do you dye your hair?",
+          "type": "integer",
+          "conditional_question_id": 1,
+          "conditional_operation": "date_number_of_years",
+          "conditional_operator": "<=",
+          "conditional_value": 35
+        }
+      ]
+    }
+  ]
+}
