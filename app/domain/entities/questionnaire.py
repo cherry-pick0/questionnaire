@@ -3,8 +3,6 @@ from typing import Union
 
 from dateutil import relativedelta
 
-from domain.entities.answer import Answer
-
 
 class Questionnaire:
     id: int
@@ -39,7 +37,7 @@ class Question:
         self.conditional_operator = conditional_operator
         self.conditional_value = conditional_value
 
-    def show_based_on_condition(self, conditional_answer: Answer):
+    def show_based_on_condition(self, conditional_answer):
         if self.conditional_operation == "date_number_of_years":
             date = datetime.strptime(conditional_answer.value, "%Y-%m-%d")
             diff = relativedelta.relativedelta(datetime.now(), date)

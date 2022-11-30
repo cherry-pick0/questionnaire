@@ -13,13 +13,22 @@ class CurrentFlowQuestionsIRepository(abc.ABC):
 class ServiceCurrentFlow:
     questions: CurrentFlowQuestionsIRepository = None
 
-    def execute(self, participant: int, questionnaire: int):
+    def execute(self, questionnaire: int, participant: int):
         current_question = self.questions.get_current_question(participant, questionnaire)
         status = "completed" if not current_question else "pending"
 
         return {
-            "participant": participant,
-            "questionnaire": questionnaire,
+            "participant": int(participant),
+            "questionnaire": int(questionnaire),
             "status": status,
-            "current_question": current_question,
+            "current_question": {
+                "id": current_question.id,
+                "order": current_question.order,
+                "text": current_question.text,
+                "question_type": current_question.question_type,
+                "conditional_question_id": current_question.conditional_question_id,
+                "conditional_operation": current_question.conditional_operator,
+                "conditional_operator": current_question.conditional_operator,
+                "conditional_value": current_question.conditional_value,
+            }
         }

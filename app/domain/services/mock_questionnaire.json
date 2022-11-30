@@ -5,20 +5,19 @@
       "questions": [
         {
           "id": 1,
-          "questionnaire_id": 1,
           "order": 1,
           "text": "When were you born?",
-          "type": "date",
+          "question_type": "date",
           "conditional_question_id": null,
           "conditional_operation": null,
+          "conditional_operator": null,
           "conditional_value": null
         },
         {
           "id": 2,
-          "questionnaire_id": 1,
           "order": 2,
           "text": "How much do you weigh?",
-          "type": "integer",
+          "question_type": "integer",
           "conditional_question_id": 1,
           "conditional_operation": "date_number_of_years",
           "conditional_operator": ">",
@@ -26,10 +25,9 @@
         },
         {
           "id": 3,
-          "questionnaire_id": 1,
           "order": 3,
           "text": "How often do you dye your hair?",
-          "type": "integer",
+          "question_type": "integer",
           "conditional_question_id": 1,
           "conditional_operation": "date_number_of_years",
           "conditional_operator": "<=",

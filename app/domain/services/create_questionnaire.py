@@ -31,6 +31,7 @@ class ServiceCreateQuestionnaire:
 
         for question_data in questionnaire_data["questions"]:
             question_data["questionnaire"] = questionnaire_entity
+            question_data["question_id"] = question_data.pop("id")
             question_entity = Question(**question_data)
             self.questions.add_question(question_entity)
 

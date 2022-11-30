@@ -26,6 +26,7 @@ class AnswersRepository:
             question_data = questions[answer_data["question_id"]]
             questionnaire_entity = Questionnaire(questionnaire_id)
             question_data["questionnaire"] = questionnaire_entity
+            question_data["question_id"] = question_data.pop("id")
             question_entity = Question(**question_data)
 
             answer_entity = Answer(participant_entity, question_entity, answer_data["value"], answer_data["id"])

@@ -19,12 +19,12 @@ class QuestionsRepository(CreateQuestionnaireQuestionsIRepository, CurrentFlowQu
 
         questions[question_entity.id] = {
             "id": question_entity.id,
-            "questionnaire_id": question_entity.questionnaire.id,
             "order": question_entity.order,
             "text": question_entity.text,
-            "type": question_entity.question_type,
+            "question_type": question_entity.question_type,
             "conditional_question_id": question_entity.conditional_question_id,
             "conditional_operation": question_entity.conditional_operation,
+            "conditional_operator": question_entity.conditional_operator,
             "conditional_value": question_entity.conditional_value
         }
 
@@ -52,8 +52,10 @@ class QuestionsRepository(CreateQuestionnaireQuestionsIRepository, CurrentFlowQu
         questions = questionnaire["questions"]
 
         questionnaire_entity = Questionnaire(questionnaire_id)
-        for question_data in questions:
+        for key in questions.keys():
+            question_data = questions[key]
             question_data["questionnaire"] = questionnaire_entity
+            question_data["question_id"] = question_data.pop("id")
             question_entity = Question(**question_data)
             questions_list.append(question_entity)
 

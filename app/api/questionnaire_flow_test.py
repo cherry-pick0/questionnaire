@@ -28,22 +28,23 @@ class TestQuestionnaireFlow:
         assert response.status_code == 200
 
         expected_data = {
-            "participant": participant_id,
-            "questionnaire": questionnaire_id,
+            "participant": int(participant_id),
+            "questionnaire": int(questionnaire_id),
             "status": "pending",
             "current_question":
                 {
                     "id": 1,
                     "order": 1,
                     "text": "When were you born?",
-                    "type": "date",
+                    "question_type": "date",
                     "conditional_question_id": None,
                     "conditional_operation": None,
+                    "conditional_operator": None,
                     "conditional_value": None,
                 }
         }
 
-        assert expected_data == response.text
+        assert expected_data == response.json()
 
         # Answer question one
         path = "api/answers"
@@ -75,7 +76,7 @@ class TestQuestionnaireFlow:
                     "id": 2,
                     "order": 2,
                     "text": "How much do you weigh?",
-                    "type": "integer",
+                    "question_type": "integer",
                     "conditional_question_id": 1,
                     "conditional_operation": "date_number_of_years",
                     "conditional_operator": ">",
