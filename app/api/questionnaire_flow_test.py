@@ -50,21 +50,26 @@ class TestQuestionnaireFlow:
         path = "api/answers"
         question_data = {
             "question_id": 1,
-            "value": "01-01-1900"
+            "value": "01-01-1900",
+            "participant_id": participant_id,
+            "questionnaire_id": questionnaire_id,
         }
+
         response = requests.post(url=f"{base_url}{path}", data=json.dumps(question_data))
         assert response.status_code == 201
-        answer_id = json.loads(response.text)[0]["id"]
+        answer_id = response.json()["id"]
+
         expected_data = {
             "id": answer_id,
             "question_id": 1,
             "value": "01-01-1900"
         }
-        assert expected_data == response.text
+        assert expected_data == response.json()
 
         # Get questionnaire with the second question
         path = "api/questionnaire-flow"
-        response = requests.get(url=f"{base_url}{path}", questionnaire=questionnaire_id, participant=participant_id)
+        response = requests.get(url=f"{base_url}{path}", params={"questionnaire": questionnaire_id,
+                                                                 "participant": participant_id})
         assert response.status_code == 200
 
         expected_data = {
@@ -84,7 +89,7 @@ class TestQuestionnaireFlow:
                 }
         }
 
-        assert expected_data == response.text
+        assert expected_data == response.json()
 
         # Answer question two
         path = "api/answers"
@@ -100,11 +105,12 @@ class TestQuestionnaireFlow:
             "question_id": 2,
             "value": 70
         }
-        assert expected_data == response.text
+        assert expected_data == response.json()
 
         # Get questionnaire
         path = "api/questionnaire-flow"
-        response = requests.get(url=f"{base_url}{path}", questionnaire=questionnaire_id, participant=participant_id)
+        response = requests.get(url=f"{base_url}{path}", params={"questionnaire": questionnaire_id,
+                                                                 "participant": participant_id})
         assert response.status_code == 200
 
         expected_data = {
@@ -114,11 +120,11 @@ class TestQuestionnaireFlow:
             "current_question": None
         }
 
-        assert expected_data == response.text
+        assert expected_data == response.json()
 
         # Get all answers
         path = "api/answers"
-        response = requests.get(url=f"{base_url}{path}", participant=participant_id)
+        response = requests.get(url=f"{base_url}{path}", params={"participant": participant_id})
         assert response.status_code == 200
 
         expected_data = [
@@ -140,4 +146,4 @@ class TestQuestionnaireFlow:
             }
         ]
 
-        assert expected_data == response.text
+        assert expected_data == response.json()

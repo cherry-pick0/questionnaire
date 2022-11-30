@@ -4,12 +4,15 @@ from typing import List, Optional
 import redis
 
 from domain.entities.questionnaire import Question, Questionnaire
+from domain.services.create_answer import CreateAnswerQuestionsIRepository
 from domain.services.create_questionnaire import CreateQuestionnaireQuestionsIRepository
 from domain.services.current_flow import CurrentFlowQuestionsIRepository
 from storage.answers_repository import AnswersRepository
 
 
-class QuestionsRepository(CreateQuestionnaireQuestionsIRepository, CurrentFlowQuestionsIRepository):
+class QuestionsRepository(CreateQuestionnaireQuestionsIRepository,
+                          CurrentFlowQuestionsIRepository,
+                          CreateAnswerQuestionsIRepository):
     def add_question(self, question_entity: Question):
         r = redis.Redis(host='localhost', port=6379, db=0)
 
@@ -40,7 +43,10 @@ class QuestionsRepository(CreateQuestionnaireQuestionsIRepository, CurrentFlowQu
         questionnaires = json.loads(r.get("questionnaires").decode())
         questionnaire = questionnaires[str(questionnaire_id)]
         questions = questionnaire["questions"]
-        question_data = questions[question_id]
+        question_data = questions[str(question_id)]
+        questionnaire_entity = Questionnaire(questionnaire_id)
+        question_data["questionnaire"] = questionnaire_entity
+        question_data["question_id"] = question_data.pop("id")
         return Question(**question_data)
 
     @staticmethod
@@ -64,7 +70,6 @@ class QuestionsRepository(CreateQuestionnaireQuestionsIRepository, CurrentFlowQu
 
     def get_current_question(self, participant_id: int, questionnaire_id: int) -> Optional[Question]:
         questions = self.get_questions(questionnaire_id)
-
         answers_repo = AnswersRepository()
         answers = answers_repo.get_answers(participant_id, questionnaire_id)
 

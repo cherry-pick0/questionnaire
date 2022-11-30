@@ -8,7 +8,7 @@ class Answer:
     question: Question
     value: str
 
-    def __init__(self, participant, question, value, answer_id=None):
+    def __init__(self, question, value, participant, answer_id=None):
         self.id = answer_id
         self.participant = participant
         self.question = question

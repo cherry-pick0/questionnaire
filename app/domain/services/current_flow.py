@@ -15,6 +15,7 @@ class ServiceCurrentFlow:
 
     def execute(self, questionnaire: int, participant: int):
         current_question = self.questions.get_current_question(participant, questionnaire)
+        print(current_question.text)
         status = "completed" if not current_question else "pending"
 
         return {
